@@ -36,7 +36,7 @@ function Queue() {
     this.get = () => item = array.length < 0 ? null : array[0];
 }
 
-function AutoMenu() {
+function AutoContentsMenuJS() {
     const _hierarchyMap = { "H1": 0, "H2": 1, "H3": 2, "H4": 3, "H5": 4, "H6": 5 };
     let _className = null;
     let _ignoreClassNmae = null;

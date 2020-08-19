@@ -1,0 +1,81 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>AutoMenu Sample</title>
+    <link rel="stylesheet" type="text/css" href="AutoMenu.css" />
+</head>
+
+<body>
+    
+    <div id="menu-container"></div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <span class="title title-container">グループ1</span>
+    <h1>見出し</h1>
+    <h2 id="サブ">サブ</h2>
+    <h2>サブ</h2>
+    <h3>サブサブ</h3>
+    <h4>サブサブ</h4>
+    <h4>サブサブ</h4>
+    <h5>サブサブ</h5>
+    <h6>サブサブ</h6>
+    <h6>サブサブ</h6>
+    <h5>サブサブ</h5>
+    <h3>サブサブ</h3>
+    <h2>サブ</h2>
+    <h2>サブ</h2>
+    <h3>サブサブ</h3>
+    <h3>サブサブ</h3>
+    <h3>サブサブ</h3>
+    <h1>見出し</h1>
+    <h2>サブ</h2>
+    
+
+    <span class="title">グループ2</span>
+    <h1>見出し</h1>
+    <p>
+        テスト
+    </p>
+
+    <h1>見出し</h1>
+    <div>
+        <h2>サブ</h2>
+        <p>
+            テスト
+        </p>
+
+        <div>
+            <h3>サブサブ</h3>
+            <p>
+                テスト
+            </p>
+        </div>
+
+        <h2>サブ</h2>
+        <p>
+            テスト
+        </p>
+    </div>
+    <h1>見出し</h1>
+
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="../src/AutoMenu.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            let menu = new AutoMenu();
+            menu.registerGroup("span.title");
+            menu.registerGroupClass("arrow box_arrow");
+            menu.registerContainerClass("h2_body");
+            menu.drawContentsMenu("#menu-container", true);
+        });
+    </script>
+</body>
+
+</html>

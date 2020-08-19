@@ -167,7 +167,7 @@ function AutoMenu() {
     const createContentsMenu = (isShowNumber) => {
         let headers = $(`${_className}, h1, h2, h3, h4, h5, h6`);
         if (_ignoreClassNmae)
-            headers = headers.not(_ignoreClassNmae);
+            headers = headers.not(`.${_ignoreClassNmae}`);
 
         allocHeadId(headers);
         const groups = separateGroup(headers);

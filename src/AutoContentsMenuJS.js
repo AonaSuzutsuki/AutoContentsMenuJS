@@ -115,7 +115,7 @@ function AutoMenu() {
                 map[id] = id in map ? map[id] + 1 : 0;
         });
 
-        headers.each((index, elem) => {
+        headers.forEach((elem, index) => {
             if (elem.tagName in _hierarchyMap) {
                 const element = $(elem);
                 const id = element.attr("id");
@@ -145,7 +145,7 @@ function AutoMenu() {
         const containerArray = [];
         let array = [];
 
-        headers.each((index, header) => {
+        headers.forEach((header, index) => {
             if (header.tagName in _hierarchyMap) {
                 array.push(header);
             }
@@ -161,13 +161,21 @@ function AutoMenu() {
         return containerArray;
     }
 
+    const removeIgnoreClass = (elements) => {
+        let array = Array.from(elements);
+        let removed = array.filter(elem => !elem.classList.contains(_ignoreClassNmae));
+        return removed;
+    }
+
     //
     // 見出しのメニューを自動生成
     //
     const createContentsMenu = (isShowNumber) => {
-        let headers = $(`${_className}, h1, h2, h3, h4, h5, h6`);
+        //let headers = $(`${_className}, h1, h2, h3, h4, h5, h6`);
+
+        let headers = document.querySelectorAll(`${_className}, h1, h2, h3, h4, h5, h6`);
         if (_ignoreClassNmae)
-            headers = headers.not(`.${_ignoreClassNmae}`);
+            headers = removeIgnoreClass(headers);
 
         allocHeadId(headers);
         const groups = separateGroup(headers);

@@ -180,6 +180,10 @@ function AutoMenu() {
         allocHeadId(headers);
         const groups = separateGroup(headers);
 
+        const container2 = document.createElement("div");
+        if (_containerClassName)
+            container2.className = _containerClassName;
+        
         const container = $(`<div class="${_containerClassName}">`);
         let titleNumber = 1;
         for (let [_key, value] of Object.entries(groups)) {

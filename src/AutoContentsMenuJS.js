@@ -43,12 +43,17 @@ function AutoMenu() {
     let _addedClassName = "";
     let _containerClassName = "";
 
-    const createContentName = () => $(`<h3 class="${_addedClassName}">`).text("目次");
+    const createContentName = () => {
+        let h3 = document.createElement("h3");
+        h3.className = _addedClassName;
+        h3.innerText = "目次";
+        return h3;
+    };
 
     const createLink = (href, text) => {
-        const link = $("<a>");
-        link.attr("href", href);
-        link.text(text);
+        const link = document.createElement("a");
+        link.setAttribute("href", href);
+        link.innerText = text;
         return link;
     }
 
@@ -71,11 +76,11 @@ function AutoMenu() {
 
         const parentString = createParentString(parentStringStack);
 
-        const list = $("<li>");
-        const id = $(element).attr("id");
-        const text = isShowNumber ? `${parentString}${number} ${$(element).text()}` : $(element).text();
-        list.append(createLink(`#${id}`, text));
-        container.append(list);
+        const list = document.createElement("li");
+        const id = element.getAttribute("id");
+        const text = isShowNumber ? `${parentString}${number} ${element.innerText}` : element.innerText;
+        list.appendChild(createLink(`#${id}`, text));
+        container.appendChild(list);
         containerStack.push([container, number + 1]);
 
         const next = elements.get();
@@ -83,9 +88,9 @@ function AutoMenu() {
             const nextHierarchy = _hierarchyMap[next.tagName];
             const currentHierarchy = _hierarchyMap[element.tagName];
             if (nextHierarchy > currentHierarchy) {
-                const _container = $("<ol>");
+                const _container = document.createElement("ol");
                 containerStack.push([_container, 1]);
-                container.append(_container);
+                container.appendChild(_container);
                 parentStringStack.push(`${number}.`);
                 appendMenuElements(elements, containerStack, parentStringStack, isShowNumber);
             }
@@ -109,25 +114,24 @@ function AutoMenu() {
     const allocHeadId = (headers) => {
         const map = {};
 
-        $("*").each((index, value) => {
-            const id = $(value).attr("id");
+        Array.from(document.body.getElementsByTagName("*")).forEach(value => {
+            const id = value.getAttribute("id");
             if (id !== void 0)
                 map[id] = id in map ? map[id] + 1 : 0;
         });
 
         headers.forEach((elem, index) => {
             if (elem.tagName in _hierarchyMap) {
-                const element = $(elem);
-                const id = element.attr("id");
-                if (id === void 0) {
-                    const text = element.text();
+                const id = elem.getAttribute("id");
+                if (id == null) {
+                    const text = elem.innerText;
                     if (text in map) {
                         let index = map[text];
-                        element.attr("id", `${text}_${++index}`);
+                        elem.setAttribute("id", `${text}_${++index}`);
                         map[text] = index;
                     }
                     else {
-                        element.attr("id", text);
+                        elem.setAttribute("id", text);
                         map[text] = 0;
                     }
                 }
@@ -184,18 +188,17 @@ function AutoMenu() {
         if (_containerClassName)
             container2.className = _containerClassName;
         
-        const container = $(`<div class="${_containerClassName}">`);
         let titleNumber = 1;
         for (let [_key, value] of Object.entries(groups)) {
             const key = value[0];
             if (key != null) {
-                let title = $("<div>").text($(key).text());
-                title.addClass("content-title");
-                title.addClass("title-" + String(titleNumber++));
-                container.append(title);
+                let title = document.createElement("div");
+                title.innerText = key.innerText;
+                title.className = `content-title title-${String(titleNumber++)}`;
+                container2.appendChild(title);
             }
 
-            const ol = $("<ol>");
+            const ol = document.createElement("ol");
             const containers = new Stack();
             containers.push([ol, 1]);
 
@@ -206,18 +209,19 @@ function AutoMenu() {
             numberStack.push("");
 
             appendMenuElements(elements, containers, numberStack, isShowNumber);
-            container.append(ol);
+            container2.appendChild(ol);
         }
 
 
-        return container;
+        return container2;
     };
 
     this.drawContentsMenu = (exportId, isShowNumber = false) => {
         const container = createContentsMenu(isShowNumber);
 
-        $(exportId).append(createContentName());
-        $(exportId).append(container);
+        let exportElement = document.querySelector(exportId);
+        exportElement.appendChild(createContentName());
+        exportElement.appendChild(container);
     };
 
     this.registerGroup = (name) => _className = name;

@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    
+
     <div id="menu-container"></div>
 
     <br />
@@ -37,7 +37,7 @@
     <h3>サブサブ</h3>
     <h1>見出し</h1>
     <h2>サブ</h2>
-    
+
 
     <span class="title">グループ2</span>
     <h1>見出し</h1>
@@ -66,17 +66,15 @@
     </div>
     <h1>見出し</h1>
 
-    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <!-- <script type="text/javascript" src="scripts/jquery.js"></script> -->
     <script type="text/javascript" src="../src/AutoContentsMenuJS.js"></script>
     <script type="text/javascript">
-        $(function () {
-            let menu = new AutoMenu();
-            menu.registerGroup("span.title");
-            menu.registerGroupClass("arrow box_arrow");
-            menu.registerContainerClass("h2_body");
-            menu.ignoreGroupClass("ignore");
-            menu.drawContentsMenu("#menu-container", true);
-        });
+        let menu = new AutoMenu();
+        menu.registerGroup("span.title");
+        menu.registerGroupClass("arrow box_arrow");
+        menu.registerContainerClass("h2_body");
+        menu.ignoreGroupClass("ignore");
+        menu.drawContentsMenu("#menu-container", true);
     </script>
 </body>
 

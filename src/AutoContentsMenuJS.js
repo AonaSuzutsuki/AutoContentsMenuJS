@@ -1,9 +1,6 @@
 /*! 
     AutoMenu    Copyright (C) AonaSuzutsuki 2020.
     MIT License
-
-    Includes jQuery.js
-    Copyright JS Foundation and other contributors, https://js.foundation/
 */
 
 function Stack() {

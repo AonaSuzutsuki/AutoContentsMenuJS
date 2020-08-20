@@ -165,9 +165,10 @@ function AutoContentsMenuJS() {
     //
     // Removes the element with the specified class name.
     //
-    const removeIgnoreClass = (elements) => {
+    const removeIgnoreClass = (elements, ignores) => {
         let array = Array.from(elements);
-        let removed = array.filter(elem => !elem.classList.contains(_ignoreClassNmae));
+        let ignoreArray = Array.from(ignores);
+        let removed = array.filter(elem => !ignoreArray.includes(elem));
         return removed;
     }
 
@@ -176,8 +177,9 @@ function AutoContentsMenuJS() {
     //
     const createContentsMenu = (isShowNumber) => {
         let headers = document.querySelectorAll(`${_className}, h1, h2, h3, h4, h5, h6`);
+        let ignores = document.querySelectorAll(_ignoreClassNmae);
         if (_ignoreClassNmae)
-            headers = removeIgnoreClass(headers);
+            headers = removeIgnoreClass(headers, ignores);
 
         allocHeadId(headers);
         const groups = separateGroup(headers);

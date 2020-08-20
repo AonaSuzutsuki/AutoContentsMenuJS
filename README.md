@@ -6,7 +6,7 @@ The main feature of this script is that the table of contents can be divided int
 This makes it possible to describe multiple topics on a single page.
 
 # Sample
-[Sample](https://aonsztk.xyz/sample/AutoMenu/AutoMenu.html)  
+[Sample](https://aonsztk.xyz/sample/AutoContentsMenuJS/AutoMenu.html)  
 [Practical example](http://kimamalab.azurewebsites.net/SevenDays/BuildServer)  
 
 # How to use

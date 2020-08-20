@@ -40,10 +40,10 @@ function AutoContentsMenuJS() {
     let _addedClassName = "";
     let _containerClassName = "";
 
-    const createContentName = () => {
+    const createContentName = (contentTitle) => {
         let h3 = document.createElement("h3");
         h3.className = _addedClassName;
-        h3.innerText = "目次";
+        h3.innerText = contentTitle;
         return h3;
     };
 
@@ -63,7 +63,7 @@ function AutoContentsMenuJS() {
     }
 
     //
-    // 見出し要素配列から自動メニュー生成
+    // Automatic menu generation from an array of headline elements.
     //
     const appendMenuElements = (elements, containerStack, parentStringStack, isShowNumber) => {
         const item = containerStack.pop();
@@ -106,7 +106,7 @@ function AutoContentsMenuJS() {
     }
 
     //
-    // idが振られていないものを自動で降る
+    // Automatically add the id to elements.
     //
     const allocHeadId = (headers) => {
         const map = {};
@@ -140,7 +140,7 @@ function AutoContentsMenuJS() {
     }
 
     //
-    // span.titleに応じてグループ分け
+    // Group according to a given class.
     //
     const separateGroup = (headers) => {
         const containerArray = [];
@@ -162,6 +162,9 @@ function AutoContentsMenuJS() {
         return containerArray;
     }
 
+    //
+    // Removes the element with the specified class name.
+    //
     const removeIgnoreClass = (elements) => {
         let array = Array.from(elements);
         let removed = array.filter(elem => !elem.classList.contains(_ignoreClassNmae));
@@ -169,11 +172,9 @@ function AutoContentsMenuJS() {
     }
 
     //
-    // 見出しのメニューを自動生成
+    // Automatically generate contents menu.
     //
     const createContentsMenu = (isShowNumber) => {
-        //let headers = $(`${_className}, h1, h2, h3, h4, h5, h6`);
-
         let headers = document.querySelectorAll(`${_className}, h1, h2, h3, h4, h5, h6`);
         if (_ignoreClassNmae)
             headers = removeIgnoreClass(headers);
@@ -181,9 +182,9 @@ function AutoContentsMenuJS() {
         allocHeadId(headers);
         const groups = separateGroup(headers);
 
-        const container2 = document.createElement("div");
+        const containerElement = document.createElement("div");
         if (_containerClassName)
-            container2.className = _containerClassName;
+            containerElement.className = _containerClassName;
         
         let titleNumber = 1;
         for (let [_key, value] of Object.entries(groups)) {
@@ -192,7 +193,7 @@ function AutoContentsMenuJS() {
                 let title = document.createElement("div");
                 title.innerText = key.innerText;
                 title.className = `content-title title-${String(titleNumber++)}`;
-                container2.appendChild(title);
+                containerElement.appendChild(title);
             }
 
             const ol = document.createElement("ol");
@@ -206,26 +207,43 @@ function AutoContentsMenuJS() {
             numberStack.push("");
 
             appendMenuElements(elements, containers, numberStack, isShowNumber);
-            container2.appendChild(ol);
+            containerElement.appendChild(ol);
         }
 
 
-        return container2;
+        return containerElement;
     };
 
-    this.drawContentsMenu = (exportId, isShowNumber = false) => {
+    //
+    // An "auto-generate" method called by the user.
+    //
+    this.drawContentsMenu = (exportId, isShowNumber = false, contentTitle = "目次") => {
         const container = createContentsMenu(isShowNumber);
 
         let exportElement = document.querySelector(exportId);
-        exportElement.appendChild(createContentName());
+        exportElement.appendChild(createContentName(contentTitle));
         exportElement.appendChild(container);
     };
 
+
+
+    //
+    // Set the class name to be considered a group.
+    //
     this.registerGroup = (name) => _className = name;
 
-    this.ignoreGroupClass = (name) => _ignoreClassNmae = name;
+    //
+    // Set the class name to be ignored.
+    //
+    this.ignoreClass = (name) => _ignoreClassNmae = name;
 
+    //
+    // Set the class to be given to the title of the group.
+    //
     this.registerGroupClass = (className) => _addedClassName = className;
 
+    //
+    // Set the class to be added to the table of contents container of each group.
+    //
     this.registerContainerClass = (className) => _containerClassName = className;
 }

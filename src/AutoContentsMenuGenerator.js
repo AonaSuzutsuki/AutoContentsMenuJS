@@ -5,52 +5,6 @@
     MIT License
 */
 
-class Stack {
-    constructor() {
-        this.array = [];
-    }
-
-    push(item) {
-        this.array.push(item);
-    }
-
-    pop() {
-        return this.array.length <= 0 ? null : this.array.pop();
-    }
-
-    each(func) {
-        this.array.forEach((value, index) => func(value));
-    }
-
-    reduce(func) {
-        return this.array.reduce((prev, current) => func(prev, current));
-    }
-}
-
-class Queue {
-    constructor() {
-        this.array = [];
-    }
-
-    enqueue(item) {
-        this.array.push(item);
-    }
-
-    enqueueRange(items) {
-        for (let [_key, value] of Object.entries(items)) {
-            this.enqueue(value);
-        }
-    }
-
-    dequeue() {
-        return this.array.length <= 0 ? null : this.array.shift();
-    }
-
-    get() {
-        return this.array.length < 0 ? null : this.array[0];
-    }
-}
-
 class AutoContentsMenuGenerator {
     constructor() {
         this._hierarchyMap = { "H1": 0, "H2": 1, "H3": 2, "H4": 3, "H5": 4, "H6": 5 };

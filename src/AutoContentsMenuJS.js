@@ -27,22 +27,28 @@ class Stack {
     }
 }
 
-function Queue() {
-    const array = [];
+class Queue {
+    constructor() {
+        this.array = [];
+    }
 
-    const enqueue = (item) => array.push(item);
+    enqueue(item) {
+        this.array.push(item);
+    }
 
-    this.enqueueRange = (items) => {
+    enqueueRange(items) {
         for (let [_key, value] of Object.entries(items)) {
-            enqueue(value);
+            this.enqueue(value);
         }
     }
 
-    this.enqueue = (item) => enqueue(item);
+    dequeue() {
+        return this.array.length <= 0 ? null : this.array.shift();
+    }
 
-    this.dequeue = () => array.length <= 0 ? null : array.shift();
-
-    this.get = () => item = array.length < 0 ? null : array[0];
+    get() {
+        return this.array.length < 0 ? null : this.array[0];
+    }
 }
 
 function AutoContentsMenuJS() {

@@ -13,6 +13,8 @@ function Stack() {
     this.pop = () => array.length <= 0 ? null : array.pop();
     
     this.each = (func) => array.forEach((value, index) => func(value));
+
+    this.reduce = (func) => array.reduce((prev, current) => func(prev, current));
 }
 
 function Queue() {
@@ -54,13 +56,7 @@ function AutoContentsMenuJS() {
         return link;
     }
 
-    const createParentString = (parentStringStack) => {
-        let parentString = "";
-        parentStringStack.each((item) => {
-            parentString += item;
-        });
-        return parentString;
-    }
+    const createParentString = (parentStringStack) => parentStringStack.reduce((prev, current) => prev + current);
 
     //
     // Automatic menu generation from an array of headline elements.

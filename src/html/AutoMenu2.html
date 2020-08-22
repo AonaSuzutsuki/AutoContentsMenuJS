@@ -1,0 +1,64 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>AutoMenu Sample</title>
+    <!-- build:css css/AutoMenu.min.css -->
+    <link rel="stylesheet" type="text/css" href="AutoMenu.css" />
+    <!-- endbuild -->
+</head>
+
+<body>
+
+    <div id="menu-container"></div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div class="content-group">Group1</div>
+    <h1 id="content1">h1</h1>
+    <h2>h2</h2>
+    <h3>h3</h3>
+    <div>
+        content
+    </div>
+
+    <div class="content-group2">Group2</div>
+    <h1>h1</h1>
+    <div>
+        <h2>h2</h2>
+        <p>
+            content
+        </p>
+
+        <div>
+            <h3>h3</h3>
+            <p>
+                content
+            </p>
+        </div>
+
+        <h2>h2</h2>
+        <p>
+            content
+        </p>
+    </div>
+    <h1>h1</h1>
+
+    <!-- build:js js/AutoContentsMenuGenerator.min.js -->
+    <script type="text/javascript" src="../AutoContentsMenuGenerator.js"></script>
+    <script type="text/javascript" src="../Stack.js"></script>
+    <script type="text/javascript" src="../Queue.js"></script>
+    <!-- endbuild -->
+    <script type="text/javascript">
+        let menu = new AutoContentsMenuGenerator();
+        menu.registerGroup(".content-group, .content-group2");
+        menu.drawContentsMenu("#menu-container", true);
+    </script>
+</body>
+
+</html>

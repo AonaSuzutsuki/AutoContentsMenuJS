@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <title>AutoMenu Sample</title>
+    <!-- build:css css/AutoMenu.min.css -->
     <link rel="stylesheet" type="text/css" href="AutoMenu.css" />
+    <!-- endbuild -->
 </head>
 
 <body>
@@ -65,8 +67,12 @@
         </p>
     </div>
     <h1>見出し</h1>
-
-    <script type="text/javascript" src="../src/AutoContentsMenuGenerator.js"></script>
+    
+    <!-- build:js js/AutoContentsMenuGenerator.min.js -->
+    <script type="text/javascript" src="../AutoContentsMenuGenerator.js"></script>
+    <script type="text/javascript" src="../Stack.js"></script>
+    <script type="text/javascript" src="../Queue.js"></script>
+    <!-- endbuild -->
     <script type="text/javascript">
         let menu = new AutoContentsMenuGenerator();
         menu.registerGroup("span.title");

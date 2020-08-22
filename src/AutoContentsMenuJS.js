@@ -5,18 +5,26 @@
     MIT License
 */
 
-function Stack() {
-    const array = [];
+class Stack {
+    constructor() {
+        this.array = [];
+    }
 
-    const push = (item) => array.push(item);
+    push(item) {
+        this.array.push(item);
+    }
 
-    this.push = (item) => push(item);
+    pop() {
+        return this.array.length <= 0 ? null : this.array.pop();
+    }
 
-    this.pop = () => array.length <= 0 ? null : array.pop();
-    
-    this.each = (func) => array.forEach((value, index) => func(value));
+    each(func) {
+        this.array.forEach((value, index) => func(value));
+    }
 
-    this.reduce = (func) => array.reduce((prev, current) => func(prev, current));
+    reduce(func) {
+        return this.array.reduce((prev, current) => func(prev, current));
+    }
 }
 
 function Queue() {

@@ -51,7 +51,7 @@ Define an HTML document with headings.
 ### JavaScript
 Import AutoContentsMenuJS.min.js.
 ```html
-<script type="text/javascript" src="AutoContentsMenuJS.min.js"></script>
+<script type="text/javascript" src="AutoContentsMenuGenerator.min.js"></script>
 ```
 
 Call **drawContentsMenu method** in AutoContentsMenuGenerator instance.

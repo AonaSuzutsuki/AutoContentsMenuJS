@@ -1,67 +1,80 @@
-module.exports = function( grunt ) {
-    var pkg = grunt.file.readJSON( 'package.json' );
+module.exports = function (grunt) {
+    var pkg = grunt.file.readJSON('package.json');
 
-    grunt.initConfig( {
+    grunt.initConfig({
         pkg: pkg,
         /**
          * Delete files and directories.
          */
         clean: {
-            build: [ '.tmp', 'dist' ],
-            release: [ '.tmp' ]
+            build: ['.tmp', 'dist'],
+            release: ['.tmp']
         },
+
         /**
          * Copy files and directories.
          */
         copy: {
             html: {
-                files: [ {
+                files: [{
                     expand: true,
                     cwd: 'src/html',
-                    src: [ '*.html'],
+                    src: ['*.html'],
                     dest: 'dist'
-                } ]
+                }]
             }
         },
-        
-        useminPrepare: {
-            html: 'src/html/*.html',
-            options: {
-                dest: 'dist'
-             }
-        },
+
         /**
          * Combines and compresses CSS and JavaScript, and updates the HTML reference path.
          */
-        usemin: {
-            html: 'dist/*.html',
-            options: {
-                dest: 'dist'
-             }
+        // useminPrepare: {
+        //     html: 'src/html/*.html',
+        //     options: {
+        //         dest: 'dist'
+        //      }
+        // },
+        // usemin: {
+        //     html: 'dist/*.html',
+        //     options: {
+        //         dest: 'dist'
+        //      }
+        // },
+
+        cssmin: {
+            target: {
+                files: [{
+                    expand: true,
+                    cwd: 'src/html',
+                    src: ['*.css', '!*.min.css'],
+                    dest: 'dist/css',
+                    ext: '.min.css'
+                }]
+            }
         },
 
         uglify: {
             options: {
                 output: {
                     comments: 'some'
-                  }
-              },
-            // dist: {
-            //     files: {
-            //         // Output file: Original file
-            //         'dist/AutoContentsMenuGenerator.min.js': 'dist/AutoContentsMenuGenerator.js'
-            //     }
-            // }
+                }
+            },
+            dist: {
+                files: {
+                    // Output file: Original file
+                    'dist/js/AutoContentsMenuGenerator.min.js': '.tmp/AutoContentsMenuGenerator.js'
+                }
+            }
         },
 
-        // concat: {
-        //     files: {
-        //         // Original file
-        //         src : 'src/*.js',
-        //         // Output file
-        //         dest: 'concat/AutoContentsMenuGenerator.js'
-        //     }
-        // },
+        concat: {
+            files: {
+                // Original file
+                src: 'src/*.js',
+                // Output file
+                dest: '.tmp/AutoContentsMenuGenerator.js'
+            }
+        },
 
         /**
          * Settings to monitor changes to the folder.
@@ -70,18 +83,18 @@ module.exports = function( grunt ) {
          */
         watch: {
             scripts: {
-                files: [ 'src/css/*.css', 'src/js/*.js' ],
-                tasks: [ 'build' ]
+                files: ['src/*.js', 'src/html/*.html', 'src/html/*.css'],
+                tasks: ['build']
             }
         }
-    } );
+    });
 
-    Object.keys( pkg.devDependencies ).forEach( function( devDependency ) {
-        if( devDependency.match( /^grunt\-/ ) ) {
-            grunt.loadNpmTasks( devDependency );
+    Object.keys(pkg.devDependencies).forEach(function (devDependency) {
+        if (devDependency.match(/^grunt\-/)) {
+            grunt.loadNpmTasks(devDependency);
         }
-    } );
+    });
 
-    grunt.registerTask( 'build', [ 'clean:build', 'copy', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin', 'clean:release' ] );
-    grunt.registerTask( 'default', [ 'watch' ] );
+    grunt.registerTask('build', ['clean:build', 'copy', 'concat', 'uglify', 'cssmin', 'clean:release']);
+    grunt.registerTask('default', ['watch']);
 };

@@ -3,9 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>AutoMenu Sample</title>
-    <!-- build:css css/AutoMenu.min.css -->
-    <link rel="stylesheet" type="text/css" href="AutoMenu.css" />
-    <!-- endbuild -->
+    <link rel="stylesheet" type="text/css" href="css/AutoMenu.css" />
 </head>
 
 <body>
@@ -49,11 +47,7 @@
     </div>
     <h1>h1</h1>
 
-    <!-- build:js js/AutoContentsMenuGenerator.min.js -->
-    <script type="text/javascript" src="../AutoContentsMenuGenerator.js"></script>
-    <script type="text/javascript" src="../Stack.js"></script>
-    <script type="text/javascript" src="../Queue.js"></script>
-    <!-- endbuild -->
+    <script type="text/javascript" src="js/AutoContentsMenuGenerator.min.js"></script>
     <script type="text/javascript">
         let menu = new AutoContentsMenuGenerator();
         menu.registerGroup(".content-group, .content-group2");

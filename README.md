@@ -54,11 +54,11 @@ Import AutoContentsMenuJS.min.js.
 <script type="text/javascript" src="AutoContentsMenuJS.min.js"></script>
 ```
 
-Call **drawContentsMenu method** in AutoContentsMenuJS instance.
+Call **drawContentsMenu method** in AutoContentsMenuGenerator instance.
 The first argument of the drawContentsMenu method is the ID as selector of the element to be written in the table of contents.  
 The second argument specifies whether the table of contents should be numbered or not.
 ```javascript
-let menu = new AutoContentsMenuJS();
+let menu = new AutoContentsMenuGenerator();
 menu.drawContentsMenu("#menu-container", true);
 ```
 
@@ -101,7 +101,7 @@ Specify the class name for the group.
 Call the **registerGroup method** before call the drawContentsMenu method.  
 The argument should be a class name as selector for the group.  
 ```javascript
-let menu = new AutoContentsMenuJS();
+let menu = new AutoContentsMenuGenerator();
 menu.registerGroup(".content-group");
 menu.drawContentsMenu("#menu-container", true);
 ```
@@ -124,7 +124,7 @@ Set the class name to be ignored to the element.
 Call the **ignoreClass method** before call the drawContentsMenu method.  
 The argument should be a class name as selector to be ignored for the group.   
 ```javascript
-let menu = new AutoContentsMenuJS();
+let menu = new AutoContentsMenuGenerator();
 menu.ignoreClass(".ignore");
 menu.drawContentsMenu("#menu-container", true);
 ```

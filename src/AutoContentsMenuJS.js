@@ -173,9 +173,10 @@ function AutoContentsMenuJS() {
     //
     const createContentsMenu = (isShowNumber) => {
         let headers = document.querySelectorAll(`${_className}, h1, h2, h3, h4, h5, h6`);
-        let ignores = document.querySelectorAll(_ignoreClassNmae);
-        if (_ignoreClassNmae)
+        if (_ignoreClassNmae) {
+            let ignores = document.querySelectorAll(_ignoreClassNmae);
             headers = removeIgnoreClass(headers, ignores);
+        }
 
         allocHeadId(headers);
         const groups = separateGroup(headers);

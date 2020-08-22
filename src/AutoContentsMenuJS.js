@@ -1,5 +1,7 @@
-/*! 
+/*@license 
     AutoContentsMenuJS    Copyright (C) AonaSuzutsuki 2020.
+    v1.0
+
     MIT License
 */
 

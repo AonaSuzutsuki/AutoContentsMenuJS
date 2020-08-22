@@ -49,7 +49,8 @@ Define an HTML document with headings.
 ```
 
 ### JavaScript
-Import AutoContentsMenuJS.min.js.
+Import AutoContentsMenuJS.min.js.  
+\* There is "AutoContentsMenuGenerator.min.js" in "dist/js".
 ```html
 <script type="text/javascript" src="AutoContentsMenuGenerator.min.js"></script>
 ```

@@ -51,60 +51,65 @@ class Queue {
     }
 }
 
-function AutoContentsMenuJS() {
-    const _hierarchyMap = { "H1": 0, "H2": 1, "H3": 2, "H4": 3, "H5": 4, "H6": 5 };
-    let _className = null;
-    let _ignoreClassNmae = null;
-    let _addedClassName = "";
-    let _containerClassName = "";
+class AutoContentsMenuGenerator {
+    constructor() {
+        this._hierarchyMap = { "H1": 0, "H2": 1, "H3": 2, "H4": 3, "H5": 4, "H6": 5 };
+        this._className = null;
+        this._ignoreClassNmae = null;
+        this._addedClassName = "";
+        this._containerClassName = "";
+    }
 
-    const createContentName = (contentTitle) => {
+
+    static createContentName(contentTitle) {
         let h3 = document.createElement("h3");
-        h3.className = _addedClassName;
+        h3.className = this._addedClassName;
         h3.innerText = contentTitle;
         return h3;
     };
 
-    const createLink = (href, text) => {
+    static createLink(href, text) {
         const link = document.createElement("a");
         link.setAttribute("href", href);
         link.innerText = text;
         return link;
-    }
+    };
 
-    const createParentString = (parentStringStack) => parentStringStack.reduce((prev, current) => prev + current);
+    static createParentString(parentStringStack) {
+        return parentStringStack.reduce((prev, current) => prev + current);
+    }
 
     //
     // Automatic menu generation from an array of headline elements.
     //
-    const appendMenuElements = (elements, containerStack, parentStringStack, isShowNumber) => {
+    appendMenuElements(elements, containerStack, parentStringStack, isShowNumber) {
         const item = containerStack.pop();
         const container = item[0];
         let number = item[1];
         const element = elements.dequeue();
 
-        const parentString = createParentString(parentStringStack);
+        const parentString = AutoContentsMenuGenerator.createParentString(parentStringStack);
 
         const list = document.createElement("li");
         const id = element.getAttribute("id");
         const text = isShowNumber ? `${parentString}${number} ${element.innerText}` : element.innerText;
-        list.appendChild(createLink(`#${id}`, text));
+        list.appendChild(AutoContentsMenuGenerator.createLink(`#${id}`, text));
         container.appendChild(list);
         containerStack.push([container, number + 1]);
 
         const next = elements.get();
         if (next != null) {
-            const nextHierarchy = _hierarchyMap[next.tagName];
-            const currentHierarchy = _hierarchyMap[element.tagName];
+            const nextHierarchy = this._hierarchyMap[next.tagName];
+            const currentHierarchy = this._hierarchyMap[element.tagName];
             if (nextHierarchy > currentHierarchy) {
                 const _container = document.createElement("ol");
                 containerStack.push([_container, 1]);
                 container.appendChild(_container);
                 parentStringStack.push(`${number}.`);
-                appendMenuElements(elements, containerStack, parentStringStack, isShowNumber);
+                this.appendMenuElements(elements, containerStack, parentStringStack, isShowNumber);
             }
             else if (nextHierarchy === currentHierarchy) {
-                appendMenuElements(elements, containerStack, parentStringStack, isShowNumber);
+                this.appendMenuElements(elements, containerStack, parentStringStack, isShowNumber);
             }
             else {
                 const loop = currentHierarchy - nextHierarchy;
@@ -112,15 +117,15 @@ function AutoContentsMenuJS() {
                     containerStack.pop();
                     parentStringStack.pop();
                 }
-                appendMenuElements(elements, containerStack, parentStringStack, isShowNumber);
+                this.appendMenuElements(elements, containerStack, parentStringStack, isShowNumber);
             }
         }
-    }
+    };
 
     //
     // Automatically add the id to elements.
     //
-    const allocHeadId = (headers) => {
+    allocHeadId(headers) {
         const map = {};
 
         Array.from(document.body.getElementsByTagName("*")).forEach(value => {
@@ -130,7 +135,7 @@ function AutoContentsMenuJS() {
         });
 
         headers.forEach((elem, index) => {
-            if (elem.tagName in _hierarchyMap) {
+            if (elem.tagName in this._hierarchyMap) {
                 const id = elem.getAttribute("id");
                 if (id == null) {
                     const text = elem.innerText;
@@ -149,17 +154,17 @@ function AutoContentsMenuJS() {
                 }
             }
         });
-    }
+    };
 
     //
     // Group according to a given class.
     //
-    const separateGroup = (headers) => {
+    separateGroup(headers) {
         const containerArray = [];
         let array = [];
 
         headers.forEach((header, index) => {
-            if (header.tagName in _hierarchyMap) {
+            if (header.tagName in this._hierarchyMap) {
                 array.push(header);
             }
             else {
@@ -172,35 +177,35 @@ function AutoContentsMenuJS() {
             containerArray[0] = [null, array];
 
         return containerArray;
-    }
+    };
 
     //
     // Removes the element with the specified class name.
     //
-    const removeIgnoreClass = (elements, ignores) => {
+    removeIgnoreClass(elements, ignores) {
         let array = Array.from(elements);
         let ignoreArray = Array.from(ignores);
         let removed = array.filter(elem => !ignoreArray.includes(elem));
         return removed;
-    }
+    };
 
     //
     // Automatically generate contents menu.
     //
-    const createContentsMenu = (isShowNumber) => {
-        let headers = document.querySelectorAll(`${_className}, h1, h2, h3, h4, h5, h6`);
-        if (_ignoreClassNmae) {
-            let ignores = document.querySelectorAll(_ignoreClassNmae);
-            headers = removeIgnoreClass(headers, ignores);
+    createContentsMenu(isShowNumber) {
+        let headers = document.querySelectorAll(`${this._className}, h1, h2, h3, h4, h5, h6`);
+        if (this._ignoreClassNmae) {
+            let ignores = document.querySelectorAll(this._ignoreClassNmae);
+            headers = this.removeIgnoreClass(headers, ignores);
         }
 
-        allocHeadId(headers);
-        const groups = separateGroup(headers);
+        this.allocHeadId(headers);
+        const groups = this.separateGroup(headers);
 
         const containerElement = document.createElement("div");
-        if (_containerClassName)
-            containerElement.className = _containerClassName;
-        
+        if (this._containerClassName)
+            containerElement.className = this._containerClassName;
+
         let titleNumber = 1;
         for (let [_key, value] of Object.entries(groups)) {
             const key = value[0];
@@ -221,7 +226,7 @@ function AutoContentsMenuJS() {
             const numberStack = new Stack();
             numberStack.push("");
 
-            appendMenuElements(elements, containers, numberStack, isShowNumber);
+            this.appendMenuElements(elements, containers, numberStack, isShowNumber);
             containerElement.appendChild(ol);
         }
 
@@ -232,33 +237,41 @@ function AutoContentsMenuJS() {
     //
     // An "auto-generate" method called by the user.
     //
-    this.drawContentsMenu = (exportId, isShowNumber = false, contentTitle = "目次") => {
-        const container = createContentsMenu(isShowNumber);
+    drawContentsMenu(exportId, isShowNumber = false, contentTitle = "目次") {
+        const container = this.createContentsMenu(isShowNumber);
 
         let exportElement = document.querySelector(exportId);
-        exportElement.appendChild(createContentName(contentTitle));
+        exportElement.appendChild(AutoContentsMenuGenerator.createContentName(contentTitle));
         exportElement.appendChild(container);
-    };
+    }
 
 
 
     //
     // Set the class name to be considered a group.
     //
-    this.registerGroup = (name) => _className = name;
+    registerGroup(name) {
+        this._className = name;
+    }
 
     //
     // Set the class name to be ignored.
     //
-    this.ignoreClass = (name) => _ignoreClassNmae = name;
+    ignoreClass(name) {
+        this._ignoreClassNmae = name;
+    }
 
     //
     // Set the class to be given to the title of the group.
     //
-    this.registerGroupClass = (className) => _addedClassName = className;
+    registerGroupClass(className) {
+        this._addedClassName = className;
+    }
 
     //
     // Set the class to be added to the table of contents container of each group.
     //
-    this.registerContainerClass = (className) => _containerClassName = className;
+    registerContainerClass(className) {
+        this._containerClassName = className;
+    }
 }
